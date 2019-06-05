@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import Table from './Table';
+import {fetchNPageTasks} from './store'
+import Paginator from "./Paginator";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+
+    constructor (props) {
+        super(props);
+        this.props.getNPageTasks();
+    }
+    render() {
+        return (
+            <div className="app">
+                    <Table/>
+                    <Paginator />
+            </div>
+        );
+    }
+
+
 }
 
-export default App;
+const mapStateToProps = store => {
+    console.log('storeApp', store)
+    return store
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getNPageTasks: () => dispatch(fetchNPageTasks()),
+    }
+};
+
+
+// export default withRouter(connect(mapStateToProps)(App))
+export default connect(mapStateToProps, mapDispatchToProps)(App)
